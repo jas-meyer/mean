@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dojo Query</title>
+</head>
+<body>
+<h1 id ="clicky">Interact with this!</h1>
+
+<script>
+$Dojo = function(id){
+	var element = document.getElementById(id)
+  return{
+    click: function(callback){
+      element.addEventListener("click", callback);
+    },
+    hover: function(callbackIn,callbackOut){
+      element.addEventListener("mouseover", callbackIn);
+    }
+  };
+}
+$Dojo("clicky").click(function() { console.log("The button was clicked!") });
+$Dojo("clicky").hover(function() { console.log("The button was hovered on!") });
+
+</script>
+
+
+</body>
+</html>

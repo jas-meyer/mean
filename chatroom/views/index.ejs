@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Chat Room</title>
+	<link rel="stylesheet" type = "text/css" href="/index.css">
+	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type ="text/javascript" src="/socket.io/socket.io.js"copy></script>
+    <script type ="text/javascript">
+         $(document). ready(function (){
+            // this triggers the connection event in our server!
+            var socket  = io.connect();
+             $( '#signin').submit(function (){
+    		socket.emit( "sign_in", {name: $('#name').val()})
+    		console.log('signin button hit');
+    		return false;
+			});
+			$('#cancel').click(function(){
+				socket.emit("cancel")
+			});
+			$('#messageform').submit(function (){
+				socket.emit("sendmessage", {message: $('#message').val()});
+
+				return false;
+			});
+
+			socket.on( 'in', function (data){
+    		let name = data.response
+    		let count = data.count
+    		$('#signup').toggle()
+    		$('#chatroom').toggle()
+    		let full_message = data.full_message;
+    		$('#chatbox').append(full_message);
+			});
+
+			socket.on('messager', function (data){
+    		console.log(data.name)
+    		
+    		$('#chatbox').append(data.response);
+    		
+			});
+			
+		
+			});		
+    </script>
+</head>
+<body>
+	<div id ="wrapper">
+		
+		<div id = 'signup'>
+			<form action="" id ='signin'>
+				
+				<h2> Your Name:</h2> <input type = "text" id = 'name' name ="name">
+				
+					<input type ='submit' id = 'ok' name = 'ok' value = 'OK'>
+					<button type= 'button' id= 'cancel'>Cancel</button>
+
+
+			</form>
+		</div>
+		<div id ='chatroom'>
+		<h2> Conversation Board </h2>
+		<div id ='chatbox'>
+
+		</div>
+		<form  id = 'messageform'>
+		<input type = 'text' id = 'message' name = 'message'>
+		<input type ='submit' id = 'send' name = 'send' value = 'Send'>
+		</form>
+		</div>	
+	</div>		
+</body>
+</html>

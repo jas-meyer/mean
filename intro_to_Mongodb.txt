@@ -1,0 +1,339 @@
+> show db
+2018-03-12T12:48:20.194-0500 E QUERY    [thread1] Error: don't know how to show [db] :
+shellHelper.show@src/mongo/shell/utils.js:953:11
+shellHelper@src/mongo/shell/utils.js:706:15
+@(shellhelp2):1:1
+> use my_first_db
+switched to db my_first_db
+> db.createCollection("students")
+{ "ok" : 1 }
+> db.students.insert({name: "Steve", home_state: "California", lucky_number: 13, birthday:{month: 03, day:04, year: 1945}})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "Jason", home_state: "Texas", lucky_number: 11, birthday:{month: 08, day:11, year: 1987}})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "Mike", home_state: "Washington", lucky_number: 3, birthday:{month: 11, day:25, year: 1965}})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "Jake", home_state: "California", lucky_number: 25, birthday:{month: 06, day:08, year: 2010}})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "Bugs", home_state: "Washington", lucky_number: 2, birthday:{month: 01, day:01, year: 2018}})
+WriteResult({ "nInserted" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6be9496559346af4f2079"), "name" : "Steve", "home_state" : "California", "lucky_number" : 13, "birthday" : { "month" : 3, "day" : 4, "year" : 1945 } }
+{ "_id" : ObjectId("5aa6bec996559346af4f207a"), "name" : "Jason", "home_state" : "Texas", "lucky_number" : 11, "birthday" : { "month" : 8, "day" : 11, "year" : 1987 } }
+{ "_id" : ObjectId("5aa6bf0c96559346af4f207b"), "name" : "Mike", "home_state" : "Washington", "lucky_number" : 3, "birthday" : { "month" : 11, "day" : 25, "year" : 1965 } }
+{ "_id" : ObjectId("5aa6bf4196559346af4f207c"), "name" : "Jake", "home_state" : "California", "lucky_number" : 25, "birthday" : { "month" : 6, "day" : 8, "year" : 2010 } }
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 } }
+> db.students.find({}).pretty()
+{
+	"_id" : ObjectId("5aa6be9496559346af4f2079"),
+	"name" : "Steve",
+	"home_state" : "California",
+	"lucky_number" : 13,
+	"birthday" : {
+		"month" : 3,
+		"day" : 4,
+		"year" : 1945
+	}
+}
+{
+	"_id" : ObjectId("5aa6bec996559346af4f207a"),
+	"name" : "Jason",
+	"home_state" : "Texas",
+	"lucky_number" : 11,
+	"birthday" : {
+		"month" : 8,
+		"day" : 11,
+		"year" : 1987
+	}
+}
+{
+	"_id" : ObjectId("5aa6bf0c96559346af4f207b"),
+	"name" : "Mike",
+	"home_state" : "Washington",
+	"lucky_number" : 3,
+	"birthday" : {
+		"month" : 11,
+		"day" : 25,
+		"year" : 1965
+	}
+}
+{
+	"_id" : ObjectId("5aa6bf4196559346af4f207c"),
+	"name" : "Jake",
+	"home_state" : "California",
+	"lucky_number" : 25,
+	"birthday" : {
+		"month" : 6,
+		"day" : 8,
+		"year" : 2010
+	}
+}
+{
+	"_id" : ObjectId("5aa6bf7996559346af4f207d"),
+	"name" : "Bugs",
+	"home_state" : "Washington",
+	"lucky_number" : 2,
+	"birthday" : {
+		"month" : 1,
+		"day" : 1,
+		"year" : 2018
+	}
+}
+> db.students.find({home_state: California || home_state: Washington}).
+... 
+... ^C
+
+> db.students.find({$or: [{home_state:{California},{Washington}]})
+... ^C
+
+> db.students.find({$or: [{home_state:{California},{Washington}]}})
+2018-03-12T13:31:10.090-0500 E QUERY    [thread1] SyntaxError: invalid property id @(shell):1:49
+> db.students.find({$or: [{home_state:{California}},{Washington}]})
+2018-03-12T13:32:00.032-0500 E QUERY    [thread1] ReferenceError: California is not defined :
+@(shell):1:38
+> 
+> db.students.find({$or: [{home_state:{"California"},{"Washington"}]})
+... ç
+... ^C
+
+> db.students.find({$or: [{home_state:{California}},{Washington}]})
+2018-03-12T13:32:45.076-0500 E QUERY    [thread1] ReferenceError: California is not defined :
+@(shell):1:38
+> db.students.find({$or: [{home_state:{California}},{home_state:{Washington}}])
+... ^C
+
+> db.students.find({$or: [{home_state:{"California"}},{home_state:{"Washington"}}])
+... ^C
+
+> db.students.find({$or: [{home_state:"California"},{home_state:"Washington"}])
+... ^C
+
+> db.students.find({})
+{ "_id" : ObjectId("5aa6be9496559346af4f2079"), "name" : "Steve", "home_state" : "California", "lucky_number" : 13, "birthday" : { "month" : 3, "day" : 4, "year" : 1945 } }
+{ "_id" : ObjectId("5aa6bec996559346af4f207a"), "name" : "Jason", "home_state" : "Texas", "lucky_number" : 11, "birthday" : { "month" : 8, "day" : 11, "year" : 1987 } }
+{ "_id" : ObjectId("5aa6bf0c96559346af4f207b"), "name" : "Mike", "home_state" : "Washington", "lucky_number" : 3, "birthday" : { "month" : 11, "day" : 25, "year" : 1965 } }
+{ "_id" : ObjectId("5aa6bf4196559346af4f207c"), "name" : "Jake", "home_state" : "California", "lucky_number" : 25, "birthday" : { "month" : 6, "day" : 8, "year" : 2010 } }
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 } }
+> db.students.find({$or: [{home_state:"California"},{home_state:"Washington"}]})
+
+{ "_id" : ObjectId("5aa6be9496559346af4f2079"), "name" : "Steve", "home_state" : "California", "lucky_number" : 13, "birthday" : { "month" : 3, "day" : 4, "year" : 1945 } }
+{ "_id" : ObjectId("5aa6bf0c96559346af4f207b"), "name" : "Mike", "home_state" : "Washington", "lucky_number" : 3, "birthday" : { "month" : 11, "day" : 25, "year" : 1965 } }
+{ "_id" : ObjectId("5aa6bf4196559346af4f207c"), "name" : "Jake", "home_state" : "California", "lucky_number" : 25, "birthday" : { "month" : 6, "day" : 8, "year" : 2010 } }
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 } }
+> db.students.find(lucky_number :{$gt: 3}).prett()
+2018-03-12T13:44:18.353-0500 E QUERY    [thread1] SyntaxError: missing ) after argument list @(shell):1:30
+> db.students.find(lucky_number :{$gt: 3}).pretty()
+2018-03-12T13:44:23.145-0500 E QUERY    [thread1] SyntaxError: missing ) after argument list @(shell):1:30
+> db.students.find(lucky_number :{$gt: 3})
+2018-03-12T13:44:54.289-0500 E QUERY    [thread1] SyntaxError: missing ) after argument list @(shell):1:30
+> db.students.find({lucky_number :{$gt: 3}})
+{ "_id" : ObjectId("5aa6be9496559346af4f2079"), "name" : "Steve", "home_state" : "California", "lucky_number" : 13, "birthday" : { "month" : 3, "day" : 4, "year" : 1945 } }
+{ "_id" : ObjectId("5aa6bec996559346af4f207a"), "name" : "Jason", "home_state" : "Texas", "lucky_number" : 11, "birthday" : { "month" : 8, "day" : 11, "year" : 1987 } }
+{ "_id" : ObjectId("5aa6bf4196559346af4f207c"), "name" : "Jake", "home_state" : "California", "lucky_number" : 25, "birthday" : { "month" : 6, "day" : 8, "year" : 2010 } }
+> db.students.find({})
+{ "_id" : ObjectId("5aa6be9496559346af4f2079"), "name" : "Steve", "home_state" : "California", "lucky_number" : 13, "birthday" : { "month" : 3, "day" : 4, "year" : 1945 } }
+{ "_id" : ObjectId("5aa6bec996559346af4f207a"), "name" : "Jason", "home_state" : "Texas", "lucky_number" : 11, "birthday" : { "month" : 8, "day" : 11, "year" : 1987 } }
+{ "_id" : ObjectId("5aa6bf0c96559346af4f207b"), "name" : "Mike", "home_state" : "Washington", "lucky_number" : 3, "birthday" : { "month" : 11, "day" : 25, "year" : 1965 } }
+{ "_id" : ObjectId("5aa6bf4196559346af4f207c"), "name" : "Jake", "home_state" : "California", "lucky_number" : 25, "birthday" : { "month" : 6, "day" : 8, "year" : 2010 } }
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 } }
+> db.students.find({lucky_number :{$gt: 3}}).pretty()
+{
+	"_id" : ObjectId("5aa6be9496559346af4f2079"),
+	"name" : "Steve",
+	"home_state" : "California",
+	"lucky_number" : 13,
+	"birthday" : {
+		"month" : 3,
+		"day" : 4,
+		"year" : 1945
+	}
+}
+{
+	"_id" : ObjectId("5aa6bec996559346af4f207a"),
+	"name" : "Jason",
+	"home_state" : "Texas",
+	"lucky_number" : 11,
+	"birthday" : {
+		"month" : 8,
+		"day" : 11,
+		"year" : 1987
+	}
+}
+{
+	"_id" : ObjectId("5aa6bf4196559346af4f207c"),
+	"name" : "Jake",
+	"home_state" : "California",
+	"lucky_number" : 25,
+	"birthday" : {
+		"month" : 6,
+		"day" : 8,
+		"year" : 2010
+	}
+}
+> db.students.find({lucky_number :{$lte: 10}}).pretty()
+{
+	"_id" : ObjectId("5aa6bf0c96559346af4f207b"),
+	"name" : "Mike",
+	"home_state" : "Washington",
+	"lucky_number" : 3,
+	"birthday" : {
+		"month" : 11,
+		"day" : 25,
+		"year" : 1965
+	}
+}
+{
+	"_id" : ObjectId("5aa6bf7996559346af4f207d"),
+	"name" : "Bugs",
+	"home_state" : "Washington",
+	"lucky_number" : 2,
+	"birthday" : {
+		"month" : 1,
+		"day" : 1,
+		"year" : 2018
+	}
+}
+> db.students.find({ $and: [{$gte:1},{$lte:9}]})
+Error: error: {
+	"ok" : 0,
+	"errmsg" : "unknown top level operator: $gte",
+	"code" : 2,
+	"codeName" : "BadValue"
+}
+> db.students.find({ $and: [{lucky_number: {$gte:1}},{lucky_number:{$lte:9}}]})
+{ "_id" : ObjectId("5aa6bf0c96559346af4f207b"), "name" : "Mike", "home_state" : "Washington", "lucky_number" : 3, "birthday" : { "month" : 11, "day" : 25, "year" : 1965 } }
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 } }
+> db.students.update({},{$set: {interests: ['coding','brunch','MongoDB']}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6be9496559346af4f2079"), "name" : "Steve", "home_state" : "California", "lucky_number" : 13, "birthday" : { "month" : 3, "day" : 4, "year" : 1945 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+{ "_id" : ObjectId("5aa6bec996559346af4f207a"), "name" : "Jason", "home_state" : "Texas", "lucky_number" : 11, "birthday" : { "month" : 8, "day" : 11, "year" : 1987 } }
+{ "_id" : ObjectId("5aa6bf0c96559346af4f207b"), "name" : "Mike", "home_state" : "Washington", "lucky_number" : 3, "birthday" : { "month" : 11, "day" : 25, "year" : 1965 } }
+{ "_id" : ObjectId("5aa6bf4196559346af4f207c"), "name" : "Jake", "home_state" : "California", "lucky_number" : 25, "birthday" : { "month" : 6, "day" : 8, "year" : 2010 } }
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 } }
+> db.students.updateMany({},{$set: {interests: ['coding','brunch','MongoDB']}})
+{ "acknowledged" : true, "matchedCount" : 5, "modifiedCount" : 4 }
+> db.students.find({})
+{ "_id" : ObjectId("5aa6be9496559346af4f2079"), "name" : "Steve", "home_state" : "California", "lucky_number" : 13, "birthday" : { "month" : 3, "day" : 4, "year" : 1945 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+{ "_id" : ObjectId("5aa6bec996559346af4f207a"), "name" : "Jason", "home_state" : "Texas", "lucky_number" : 11, "birthday" : { "month" : 8, "day" : 11, "year" : 1987 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+{ "_id" : ObjectId("5aa6bf0c96559346af4f207b"), "name" : "Mike", "home_state" : "Washington", "lucky_number" : 3, "birthday" : { "month" : 11, "day" : 25, "year" : 1965 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+{ "_id" : ObjectId("5aa6bf4196559346af4f207c"), "name" : "Jake", "home_state" : "California", "lucky_number" : 25, "birthday" : { "month" : 6, "day" : 8, "year" : 2010 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+> db.students.update({name:"Steve"},{$push:{interests:'world domination'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6be9496559346af4f2079"), "name" : "Steve", "home_state" : "California", "lucky_number" : 13, "birthday" : { "month" : 3, "day" : 4, "year" : 1945 }, "interests" : [ "coding", "brunch", "MongoDB", "world domination" ] }
+{ "_id" : ObjectId("5aa6bec996559346af4f207a"), "name" : "Jason", "home_state" : "Texas", "lucky_number" : 11, "birthday" : { "month" : 8, "day" : 11, "year" : 1987 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+{ "_id" : ObjectId("5aa6bf0c96559346af4f207b"), "name" : "Mike", "home_state" : "Washington", "lucky_number" : 3, "birthday" : { "month" : 11, "day" : 25, "year" : 1965 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+{ "_id" : ObjectId("5aa6bf4196559346af4f207c"), "name" : "Jake", "home_state" : "California", "lucky_number" : 25, "birthday" : { "month" : 6, "day" : 8, "year" : 2010 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+> db.students.update({name:"Jason"},{$push:{interests:'vape life'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.update({name:"Mike"},{$push:{interests:'D&D'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.update({name:"Jake"},{$push:{interests:'Eating Cheetos'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.update({name:"Bugs"},{$push:{interests:'Trolling hunters'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6be9496559346af4f2079"), "name" : "Steve", "home_state" : "California", "lucky_number" : 13, "birthday" : { "month" : 3, "day" : 4, "year" : 1945 }, "interests" : [ "coding", "brunch", "MongoDB", "world domination" ] }
+{ "_id" : ObjectId("5aa6bec996559346af4f207a"), "name" : "Jason", "home_state" : "Texas", "lucky_number" : 11, "birthday" : { "month" : 8, "day" : 11, "year" : 1987 }, "interests" : [ "coding", "brunch", "MongoDB", "vape life" ] }
+{ "_id" : ObjectId("5aa6bf0c96559346af4f207b"), "name" : "Mike", "home_state" : "Washington", "lucky_number" : 3, "birthday" : { "month" : 11, "day" : 25, "year" : 1965 }, "interests" : [ "coding", "brunch", "MongoDB", "D&D" ] }
+{ "_id" : ObjectId("5aa6bf4196559346af4f207c"), "name" : "Jake", "home_state" : "California", "lucky_number" : 25, "birthday" : { "month" : 6, "day" : 8, "year" : 2010 }, "interests" : [ "coding", "brunch", "MongoDB", "Eating Cheetos" ] }
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ] }
+> db.students.update({name:"Steve"},{$push:{interests:'Taxes'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6be9496559346af4f2079"), "name" : "Steve", "home_state" : "California", "lucky_number" : 13, "birthday" : { "month" : 3, "day" : 4, "year" : 1945 }, "interests" : [ "coding", "brunch", "MongoDB", "world domination", "Taxes" ] }
+{ "_id" : ObjectId("5aa6bec996559346af4f207a"), "name" : "Jason", "home_state" : "Texas", "lucky_number" : 11, "birthday" : { "month" : 8, "day" : 11, "year" : 1987 }, "interests" : [ "coding", "brunch", "MongoDB", "vape life" ] }
+{ "_id" : ObjectId("5aa6bf0c96559346af4f207b"), "name" : "Mike", "home_state" : "Washington", "lucky_number" : 3, "birthday" : { "month" : 11, "day" : 25, "year" : 1965 }, "interests" : [ "coding", "brunch", "MongoDB", "D&D" ] }
+{ "_id" : ObjectId("5aa6bf4196559346af4f207c"), "name" : "Jake", "home_state" : "California", "lucky_number" : 25, "birthday" : { "month" : 6, "day" : 8, "year" : 2010 }, "interests" : [ "coding", "brunch", "MongoDB", "Eating Cheetos" ] }
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ] }
+> db.students.update({name:"Steve"},{$pop:{interests: (1) })
+... ^C
+
+> db.students.update({name:"Steve"},{$pop:{interests: 1  })
+... ^C
+
+> db.students.update({name:"Steve"},{$pop:{interests: (1)  }})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6be9496559346af4f2079"), "name" : "Steve", "home_state" : "California", "lucky_number" : 13, "birthday" : { "month" : 3, "day" : 4, "year" : 1945 }, "interests" : [ "coding", "brunch", "MongoDB", "world domination" ] }
+{ "_id" : ObjectId("5aa6bec996559346af4f207a"), "name" : "Jason", "home_state" : "Texas", "lucky_number" : 11, "birthday" : { "month" : 8, "day" : 11, "year" : 1987 }, "interests" : [ "coding", "brunch", "MongoDB", "vape life" ] }
+{ "_id" : ObjectId("5aa6bf0c96559346af4f207b"), "name" : "Mike", "home_state" : "Washington", "lucky_number" : 3, "birthday" : { "month" : 11, "day" : 25, "year" : 1965 }, "interests" : [ "coding", "brunch", "MongoDB", "D&D" ] }
+{ "_id" : ObjectId("5aa6bf4196559346af4f207c"), "name" : "Jake", "home_state" : "California", "lucky_number" : 25, "birthday" : { "month" : 6, "day" : 8, "year" : 2010 }, "interests" : [ "coding", "brunch", "MongoDB", "Eating Cheetos" ] }
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ] }
+> db.students.remove({home_state:"California"})
+WriteResult({ "nRemoved" : 2 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6bec996559346af4f207a"), "name" : "Jason", "home_state" : "Texas", "lucky_number" : 11, "birthday" : { "month" : 8, "day" : 11, "year" : 1987 }, "interests" : [ "coding", "brunch", "MongoDB", "vape life" ] }
+{ "_id" : ObjectId("5aa6bf0c96559346af4f207b"), "name" : "Mike", "home_state" : "Washington", "lucky_number" : 3, "birthday" : { "month" : 11, "day" : 25, "year" : 1965 }, "interests" : [ "coding", "brunch", "MongoDB", "D&D" ] }
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ] }
+> db.students.remove({name:"Mike"})
+WriteResult({ "nRemoved" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6bec996559346af4f207a"), "name" : "Jason", "home_state" : "Texas", "lucky_number" : 11, "birthday" : { "month" : 8, "day" : 11, "year" : 1987 }, "interests" : [ "coding", "brunch", "MongoDB", "vape life" ] }
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ] }
+> db.students.remove({lucky_number:{$gt:%}}, true)
+2018-03-12T14:30:42.337-0500 E QUERY    [thread1] SyntaxError: expected expression, got '%' @(shell):1:38
+> db.students.remove({lucky_number:{$gt:5}}, true)
+WriteResult({ "nRemoved" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ] }
+> db.students.updateMany({},{$set: {numberofbelts: 0}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.students.find({})
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ], "numberofbelts" : 0 }
+> db.students.update({},{$inc: {number_of_belts: 1}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ], "numberofbelts" : 0, "number_of_belts" : 1 }
+> db.students.updateMany({},{$rename:{"number_of_belts":"belts_earned}})
+2018-03-12T15:39:58.346-0500 E QUERY    [thread1] SyntaxError: unterminated string literal @(shell):1:54
+> db.students.update({},{$rename:{"number_of_belts":"belts_earned}})
+2018-03-12T15:40:19.697-0500 E QUERY    [thread1] SyntaxError: unterminated string literal @(shell):1:50
+> db.students.updateMany({},{$rename:{"numberofbelts":"belts_earned}})
+2018-03-12T15:40:50.217-0500 E QUERY    [thread1] SyntaxError: unterminated string literal @(shell):1:52
+> db.students.updateMany({},{$rename:{"number_of_belts":"belts_earned}})
+2018-03-12T15:41:15.157-0500 E QUERY    [thread1] SyntaxError: unterminated string literal @(shell):1:54
+> db.students.find({})
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ], "numberofbelts" : 0, "number_of_belts" : 1 }
+> db.students.updateMany({},{$rename:{"number_of_belts":"belts_earned"}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.students.find({})
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ], "numberofbelts" : 0, "belts_earned" : 1 }
+> db.students.update({},{$unset: {numberofbelts: ""}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "lucky_number" : 2, "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ], "belts_earned" : 1 }
+> db.students.update({},{$unset: {lucky_number: ""}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ], "belts_earned" : 1 }
+> db.students.update({},{$set: {updated_on: }})
+2018-03-12T15:51:35.625-0500 E QUERY    [thread1] SyntaxError: expected expression, got '}' @(shell):1:42
+> db.students.update({},{$set: {updated_on: "" }})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ], "belts_earned" : 1, "updated_on" : "" }
+> db.collection.update({ "name": "bar"}, 
+...     { "$currentDate": { "date": { "$type": date }}}
+... ^C
+
+> db.students.update({},{"$currentDate":{"updated_on": {"$type":date}}}
+... ^C
+
+> db.students.update({},{"$currentDate":{"updated_on": {"$type":date}}})
+2018-03-12T15:58:15.899-0500 E QUERY    [thread1] ReferenceError: date is not defined :
+@(shell):1:55
+> db.students.update({},{$currentDate:{updated_on: {$type:"timestamp}}})
+2018-03-12T16:02:55.668-0500 E QUERY    [thread1] SyntaxError: unterminated string literal @(shell):1:56
+> db.students.update({},{$currentDate:{updated_on: {$type:"timestamp"}}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ], "belts_earned" : 1, "updated_on" : Timestamp(1520888586, 1) }
+> db.students.update({},{$currentDate:{updated_on: {$type:"date"}}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("5aa6bf7996559346af4f207d"), "name" : "Bugs", "home_state" : "Washington", "birthday" : { "month" : 1, "day" : 1, "year" : 2018 }, "interests" : [ "coding", "brunch", "MongoDB", "Trolling hunters" ], "belts_earned" : 1, "updated_on" : ISODate("2018-03-12T21:03:33.918Z") }
+> 

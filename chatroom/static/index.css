@@ -1,0 +1,10 @@
+#chatroom{
+	display: none;
+}
+
+#chatbox{
+	width: 700px;
+	height: 500px;
+	border: solid black;
+	overflow: scroll;
+}

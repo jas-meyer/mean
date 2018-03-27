@@ -1,0 +1,3 @@
+class Ninja {
+	constructor(name)
+}

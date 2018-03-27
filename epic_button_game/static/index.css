@@ -1,0 +1,13 @@
+*{
+	
+}
+#push{
+	background-color:blue;
+	color: white;
+	height: 50px;
+	width: 200px;
+}
+#reset{
+	background-color:red;
+	color: white;
+}

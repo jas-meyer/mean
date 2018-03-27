@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <title>Users</title>
+</head>
+<body>
+  <div id ="wrapper">
+    <div id = "survey">
+      <h2> <%=user%>  </h2>
+      <form action="/users" method="post">
+        
+        <h3> Your Name: <input type = "text" name ="name"></h3>
+        <h3> Age: <input type = "text" name = "age"></h3> 
+
+        <input type ="submit" id = "button" value = "Submit">
+
+      </form>
+    </div>
+  </div>    
+</body>
+</html>

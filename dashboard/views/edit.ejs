@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Edit Elk</title>
+	<link rel="stylesheet" type = "text/css" href="/index.css">
+</head>
+<body>
+	<div id ="wrapper">
+		<div id = "edit">
+			<form action="/elk/<%=elks[0]._id%>" method="post">
+				
+				<h3> Name: <input type = "text" name ="name" value="<%=elks[0].name%>"></h3>
+				<h3> Favorite Food: <input type = "text" name = "food" value ="<%=elks[0].favorite_food%>" ></h3>
+				<h3> Hobby: <input type = "text" name = "hobby" value = "<%=elks[0].hobby%>"></h3>
+					<input type ="submit" id = "button" value = "Edit an elk!">
+			</form>
+		</div>
+	</div>		
+</body>
+</html>

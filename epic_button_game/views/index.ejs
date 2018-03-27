@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Survey From</title>
+	<link rel="stylesheet" type = "text/css" href="/index.css">
+	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+         $(document). ready(function (){
+            // this triggers the connection event in our server!
+            var socket  = io.connect();
+             $( '#push').click(function (){
+    		socket.emit( "add");
+    		return false;
+			});
+            $( '#reset').click(function (){
+    		socket.emit( "reset");
+    		return false;
+			}); 
+			socket.on( 'addr', function (data){
+    		console.log(data.response)
+    		$('#count').html(data.response)
+			});			
+			socket.on('resetr', function(data){
+			console.log(data.response)
+			$('#count').html(data.response)
+			});
+
+            // we'll write all the socket stuff after the above line!
+        })
+    </script>
+</head>
+<body>
+	<div id ="wrapper">
+	<h1> The button has been pushed <span id = "count">0</span> time(s)</h1>		
+	<h3> Push the button to update the count!</h3>
+	<button type = 'button' id = 'push'>Push the epic button</button>
+	<h1><button type = 'button' id = 'reset'>Reset count</button></h1>
+
+		
+	</div>		
+</body>
+</html>

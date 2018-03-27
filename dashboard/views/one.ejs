@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>One Elk</title>
+	<link rel="stylesheet" type = "text/css" href="/index.css">
+</head>
+<body>
+	<div id ="wrapper">
+		<div id = "times">
+		</div>
+		<div id = "result">
+			
+				<h2 id = title> One of the elks</h2> 
+				
+
+				<% for(x in elks) { %>
+				<h3>Name:<%=elks[x].name%></h3> 	
+				
+				<h3>Favorite Food: <%=elks[x].favorite_food%></h3>  
+				<h3>Hobby: <%=elks[x].hobby%></h3>
+				<% }%>
+
+				<h2><a href= "/elk/new">Add a new elk</a></h2>
+
+		
+		</div>
+	</div>			
+</body>
+</html>

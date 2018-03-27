@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Results</title>
+	
+</head>
+<body>
+	<div id ="wrapper">
+		<div id = "times">
+		</div>
+		<div id = "result">
+			
+				<h2 id = title> Here are the awesome quotes!</h2>
+				<% for(x in users) { %>
+				<h3>"<%=users[x].quote%>"</h3> 	
+				
+				<h3><%=users[x].name%> at <%=users[x].createdAt%></h3>
+				<% }%>
+
+
+
+		
+		</div>
+	</div>		
+</body>
+</html>

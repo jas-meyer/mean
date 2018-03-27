@@ -1,0 +1,31 @@
+*{
+	margin:0px;
+	padding: 0px;
+}
+#wrapper{
+	width: 1000px;
+	background-color: ;
+}
+
+.house{
+	width:240px;
+	height:240px;
+	background-color: red;
+	display: inline-block;
+}
+#details{
+	width: 600px;
+	height: 400px;
+	background-color: cyan;
+	margin:auto;
+	margin-top: 10px;
+
+}
+img{
+	width:240px;
+	height:240px;
+}
+h1{
+	margin-top: 50px;
+	margin-bottom:5px;
+}
